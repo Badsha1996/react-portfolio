@@ -23,8 +23,8 @@ export function Ocean() {
       waterNormals,
       sunDirection: new THREE.Vector3(),
       sunColor: 0xffffff,
-      waterColor: 0x001e0f,
-      distortionScale: 3.7,
+      waterColor: 0x0099ff,
+      distortionScale: 1.5,
       fog: false,
       format: gl.encoding,
     }),
@@ -32,7 +32,7 @@ export function Ocean() {
   );
 
   useFrame((state, delta) => {
-    ref.current.material.uniforms.time.value += delta;
+    ref.current.material.uniforms.time.value += delta / 5;
   });
 
   return <water ref={ref} args={[geom, config]} rotation-x={-Math.PI / 2} />;

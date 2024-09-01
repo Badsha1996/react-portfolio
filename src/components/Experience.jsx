@@ -5,6 +5,7 @@ import {
   OrbitControls,
   PerspectiveCamera,
   Sky,
+  Text,
   useScroll,
 } from "@react-three/drei";
 // import Background from "./Background";
@@ -16,6 +17,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { Group } from "three";
 import { Land } from "./Land";
+import { Ship } from "./Ship";
 
 export const Experience = () => {
   // CONSTANTS
@@ -43,10 +45,6 @@ export const Experience = () => {
     );
   }, []);
 
-  const linePoints = useMemo(() => {
-    return curve.getPoints(LINE_TOTAL_POINTS);
-  }, [curve]);
-
   const shape = useMemo(() => {
     const shape = new THREE.Shape();
     shape.moveTo(0, -0.08);
@@ -57,15 +55,9 @@ export const Experience = () => {
 
   // CAMERA prospective
   const cameraGroup = useRef();
-  const cameraRail = useRef();
-  const camera = useRef();
   const scroll = useScroll();
-  const lastScroll = useRef(0);
 
   // scroll defination
-
-  // const { play, setHasScroll, end, setEnd } = usePlay();
-
   useFrame((_state, delta) => {
     const scrollOffset = Math.max(0, scroll.offset);
     const curPoint = curve.getPoint(scrollOffset);
@@ -127,10 +119,9 @@ export const Experience = () => {
   return (
     <>
       {/* <OrbitControls /> */}
-      <color attach="background" args={["#87CEEB"]} />{" "}
       {/* Sky Blue background */}
-      <fog attach="fog" args={["#87CEEB", 0, 300]} />{" "}
-      {/* Sky Blue fog for distance blending */}
+      {/* <color attach="background" args={["#87CEEB"]} />{" "}
+      <fog attach="fog" args={["#87CEEB", 0, 300]} />{" "} */}
       <ambientLight intensity={Math.PI / 5} />
       <Lighthouse scale={[0.5, 0.5, 0.5]} position={[10, 0, -50]} />
       <Land scale={[10, 10, 10]} position={[-12, 18, -710]} />
@@ -144,10 +135,109 @@ export const Experience = () => {
               scale={[0.2, 0.2, 0.2]}
               position={[0, 0, 0]}
             />
+            {/* <Ship
+              rotation-y={Math.PI}
+              rotation-z={Math.PI / 8}
+              position={[0, 0, 0]}
+              scale={[0.03, 0.03, 0.03]}
+            /> */}
           </Float>
         </group>
       </group>
       <Ocean boatRef={boat} />
+
+      {/* TEXT SECTION */}
+
+      <group position={[0, 1.5, -60]}>
+        <Text
+          color={"#7CB9E8"}
+          maxWidth={3}
+          fontSize={1}
+          anchorX="left"
+          position-y={2}
+          anchorY="middle"
+          font="font/DMSerifDisplay-Regular.ttf"
+        >
+          WELCOME TO DUMMY {"\n"}
+        </Text>
+        <Text
+          color={"white"}
+          maxWidth={3}
+          fontSize={0.2}
+          anchorX="left"
+          anchorY="top"
+          font="font/DMSerifDisplay-Regular.ttf"
+        >
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
+          voluptatem.
+        </Text>
+      </group>
+
+      <group position={[25, 1.5, -150]}>
+        <Text
+          color={"#7CB9E8"}
+          maxWidth={3}
+          fontSize={1}
+          anchorX="left"
+          position-y={2}
+          anchorY="middle"
+          font="font/DMSerifDisplay-Regular.ttf"
+        >
+          BADSHA LASKAR {"\n"}
+        </Text>
+        <Text
+          color={"white"}
+          maxWidth={3}
+          fontSize={0.2}
+          anchorX="left"
+          anchorY="top"
+          font="font/DMSerifDisplay-Regular.ttf"
+        >
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
+          voluptatem.
+        </Text>
+      </group>
+
+      <group position={[5, 1.5, -270]}>
+        <Text
+          color={"#7CB9E8"}
+          maxWidth={3}
+          fontSize={1}
+          anchorX="left"
+          position-y={2}
+          anchorY="middle"
+          font="font/DMSerifDisplay-Regular.ttf"
+        >
+          THE END {"\n"}
+        </Text>
+        <Text
+          color={"white"}
+          maxWidth={3}
+          fontSize={0.2}
+          anchorX="left"
+          anchorY="top"
+          font="font/DMSerifDisplay-Regular.ttf"
+        >
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
+          voluptatem.
+        </Text>
+      </group>
+
+      <group position={[-12, 15, -735]}>
+        <Text
+          color={"#7CB9E8"}
+          maxWidth={105}
+          fontSize={5.5}
+          anchorX="left"
+          position-y={2}
+          anchorY="middle"
+          font="font/DMSerifDisplay-Regular.ttf"
+        >
+          Thank You {"\n"}
+        </Text>
+      </group>
+
+      {/* CURVE PATH */}
       <group position={[0, -2, 0]}>
         <mesh>
           <extrudeGeometry

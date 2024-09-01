@@ -1,23 +1,25 @@
 import {
   Environment,
   Float,
-  Line,
   OrbitControls,
   PerspectiveCamera,
   Sky,
   Text,
   useScroll,
 } from "@react-three/drei";
-// import Background from "./Background";
+import Background from "./Background";
 import { Boat } from "./Boat";
 import { Ocean } from "./Ocean";
 import { Lighthouse } from "./Lighthouse";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { Group } from "three";
 import { Land } from "./Land";
 import { Ship } from "./Ship";
+import { Boatv2 } from "./Boatv2";
+import { Waves } from "./Wave";
+import CustomOrbitControls from "./CustomOrbitControls";
 
 export const Experience = () => {
   // CONSTANTS
@@ -53,7 +55,8 @@ export const Experience = () => {
     return shape;
   }, [curve]);
 
-  // CAMERA prospective
+  // REFS
+  const boat = useRef();
   const cameraGroup = useRef();
   const scroll = useScroll();
 
@@ -114,40 +117,46 @@ export const Experience = () => {
     boat.current.quaternion.slerp(targetBoatQuaternion, delta * 2);
   });
 
-  const boat = useRef();
-
   return (
     <>
-      {/* <OrbitControls /> */}
-      {/* Sky Blue background */}
+      {/* Sky Blue backgroundNOTE: comment out the SKY component before commenting out */}
       {/* <color attach="background" args={["#87CEEB"]} />{" "}
-      <fog attach="fog" args={["#87CEEB", 0, 300]} />{" "} */}
-      <ambientLight intensity={Math.PI / 5} />
+       */}
+      <fog attach="fog" args={["#87CEEB", 0, 300]} />
+
+      {/* <ambientLight intensity={Math.PI / 5} /> */}
       <Lighthouse scale={[0.5, 0.5, 0.5]} position={[10, 0, -50]} />
       <Land scale={[10, 10, 10]} position={[-12, 18, -710]} />
+
       <group ref={cameraGroup}>
         <PerspectiveCamera position={[0, 1.5, 5]} makeDefault />
         <group ref={boat}>
           <Float floatIntensity={0.5} speed={1.5} rotationIntensity={0.2}>
-            <Boat
+            {/* <Boat
               rotation-y={Math.PI}
               rotation-z={Math.PI / 8}
               scale={[0.2, 0.2, 0.2]}
               position={[0, 0, 0]}
-            />
+            /> */}
             {/* <Ship
               rotation-y={Math.PI}
               rotation-z={Math.PI / 8}
               position={[0, 0, 0]}
               scale={[0.03, 0.03, 0.03]}
             /> */}
+            <Boatv2
+              rotation-y={Math.PI}
+              rotation-z={Math.PI / 8}
+              scale={[0.2, 0.2, 0.2]}
+              position={[0, 0, 0]}
+            />
           </Float>
         </group>
       </group>
       <Ocean boatRef={boat} />
+      {/* Add Waves Component */}
 
       {/* TEXT SECTION */}
-
       <group position={[0, 1.5, -60]}>
         <Text
           color={"#7CB9E8"}
@@ -172,7 +181,6 @@ export const Experience = () => {
           voluptatem.
         </Text>
       </group>
-
       <group position={[25, 1.5, -150]}>
         <Text
           color={"#7CB9E8"}
@@ -197,7 +205,6 @@ export const Experience = () => {
           voluptatem.
         </Text>
       </group>
-
       <group position={[5, 1.5, -270]}>
         <Text
           color={"#7CB9E8"}
@@ -222,7 +229,6 @@ export const Experience = () => {
           voluptatem.
         </Text>
       </group>
-
       <group position={[-12, 15, -735]}>
         <Text
           color={"#7CB9E8"}
@@ -236,7 +242,6 @@ export const Experience = () => {
           Thank You {"\n"}
         </Text>
       </group>
-
       {/* CURVE PATH */}
       <group position={[0, -2, 0]}>
         <mesh>

@@ -37,3 +37,4 @@ export function Ocean() {
 
   return <water ref={ref} args={[geom, config]} rotation-x={-Math.PI / 2} />;
 }
+

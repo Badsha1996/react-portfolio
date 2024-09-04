@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
-import { ScrollControls } from "@react-three/drei";
+import { OrbitControls, ScrollControls } from "@react-three/drei";
 import {
   Bloom,
   DepthOfField,

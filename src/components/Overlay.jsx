@@ -16,28 +16,45 @@ export const Overlay = () => {
       {progress === 100 && (
         <div className={`intro ${play ? "intro--disappear" : ""}`}>
           <h1 className="logo">
-            PlaceHolder
+            Badsha Laskar
+            <span className="subtitle">
+              Full Stack Developer and Software Engineer
+            </span>
             <div className="spinner">
               <div className="spinner__image">
-                {/* <div className="circle-text">Badsha Laskar</div> */}
-                <CircleText/>
+                <CircleText />
               </div>
             </div>
           </h1>
-          <p className="intro__scroll">Scroll to begin the journey</p>
+          <p className="intro__scroll">Scroll to move forward</p>
           <button
             className="explore"
             onClick={() => {
               setPlay(true);
             }}
           >
-            Explore
+            Get To Know me More
           </button>
+          <div className="button-group">
+            <button
+              className="download-cv"
+              onClick={() => {
+                /* Add download functionality */
+              }}
+            >
+              Download CV
+            </button>
+            <button
+              className="contact-me"
+              onClick={() => {
+                /* Add contact functionality */
+              }}
+            >
+              Contact Me
+            </button>
+          </div>
         </div>
       )}
-      <div className={`outro ${end ? "outro--appear" : ""}`}>
-        <p className="outro__text">Wish you had a great flight with us...</p>
-      </div>
     </div>
   );
 };

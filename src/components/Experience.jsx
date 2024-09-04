@@ -21,13 +21,15 @@ import { Boatv2 } from "./Boatv2";
 import { Waves } from "./Wave";
 import CustomOrbitControls from "./CustomOrbitControls";
 
+// WATER TRAILS
+
 export const Experience = () => {
   // CONSTANTS
   const LINE_TOTAL_POINTS = 1000;
   const CURVE_DISTANCE = 100;
   const CURVE_AHEAD_CAMERA = 0.008;
   const CURVE_AHEAD_BOAT = 0.02;
-  const BOAT_MAX_ANGLE = 20;
+  const BOAT_MAX_ANGLE = 5;
 
   // CATMULLROM-CURVE ALGO ref - https://en.wikipedia.org/wiki/Centripetal_Catmull%E2%80%93Rom_spline
   const curve = useMemo(() => {
@@ -59,6 +61,9 @@ export const Experience = () => {
   const boat = useRef();
   const cameraGroup = useRef();
   const scroll = useScroll();
+
+  const [lastScrollOffset, setLastScrollOffset] = useState(0);
+  const [boatRotationX, setBoatRotationX] = useState(0);
 
   // scroll defination
   useFrame((_state, delta) => {
@@ -115,11 +120,25 @@ export const Experience = () => {
     );
 
     boat.current.quaternion.slerp(targetBoatQuaternion, delta * 2);
+
+    // IF BOAT STARTED MOVE MOMENTUM SHOULD LIFT THE BOAT
+    const isScrolling = Math.abs(scrollOffset - lastScrollOffset) > 0.0001;
+    const targetRotationX = isScrolling ? Math.PI / 35 : 0;
+
+    setBoatRotationX((prev) =>
+      THREE.MathUtils.lerp(prev, targetRotationX, delta * 5)
+    );
+
+    if (boat.current) {
+      boat.current.rotation.x = boatRotationX;
+    }
+    setLastScrollOffset(scrollOffset);
   });
 
   return (
     <>
-      {/* Sky Blue backgroundNOTE: comment out the SKY component before commenting out */}
+      {/* Sky Blue background 
+      NOTE: comment out the SKY component before commenting out */}
       {/* <color attach="background" args={["#87CEEB"]} />{" "}
        */}
       <fog attach="fog" args={["#87CEEB", 0, 300]} />
@@ -131,13 +150,7 @@ export const Experience = () => {
       <group ref={cameraGroup}>
         <PerspectiveCamera position={[0, 1.5, 5]} makeDefault />
         <group ref={boat}>
-          <Float floatIntensity={0.5} speed={1.5} rotationIntensity={0.2}>
-            {/* <Boat
-              rotation-y={Math.PI}
-              rotation-z={Math.PI / 8}
-              scale={[0.2, 0.2, 0.2]}
-              position={[0, 0, 0]}
-            /> */}
+          <Float floatIntensity={0.5} speed={1} rotationIntensity={0.2}>
             {/* <Ship
               rotation-y={Math.PI}
               rotation-z={Math.PI / 8}
@@ -146,7 +159,7 @@ export const Experience = () => {
             /> */}
             <Boatv2
               rotation-y={Math.PI}
-              rotation-z={Math.PI / 8}
+              rotation-z={Math.PI / 20}
               scale={[0.2, 0.2, 0.2]}
               position={[0, 0, 0]}
             />
@@ -154,7 +167,6 @@ export const Experience = () => {
         </group>
       </group>
       <Ocean boatRef={boat} />
-      {/* Add Waves Component */}
 
       {/* TEXT SECTION */}
       <group position={[0, 1.5, -60]}>
@@ -229,7 +241,7 @@ export const Experience = () => {
           voluptatem.
         </Text>
       </group>
-      <group position={[-12, 15, -735]}>
+      <group position={[-12, 12, -735]}>
         <Text
           color={"#7CB9E8"}
           maxWidth={105}

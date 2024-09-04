@@ -2,6 +2,7 @@ import React, { useMemo, useRef } from "react";
 import { useFrame, extend, useThree, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { Water } from "three/examples/jsm/objects/Water.js";
+import { OrbitControls } from "@react-three/drei";
 
 extend({ Water });
 
@@ -35,6 +36,9 @@ export function Ocean() {
     ref.current.material.uniforms.time.value += delta / 5;
   });
 
-  return <water ref={ref} args={[geom, config]} rotation-x={-Math.PI / 2} />;
+  return (
+    <>
+      <water ref={ref} args={[geom, config]} rotation-x={-Math.PI / 2} />;
+    </>
+  );
 }
-

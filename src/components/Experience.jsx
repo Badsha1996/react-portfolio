@@ -60,6 +60,7 @@ export const Experience = () => {
   // REFS
   const boat = useRef();
   const cameraGroup = useRef();
+  const cameraRail = useRef();
   const scroll = useScroll();
 
   const [lastScrollOffset, setLastScrollOffset] = useState(0);
@@ -137,26 +138,17 @@ export const Experience = () => {
 
   return (
     <>
-      {/* Sky Blue background 
-      NOTE: comment out the SKY component before commenting out */}
-      {/* <color attach="background" args={["#87CEEB"]} />{" "}
-       */}
       <fog attach="fog" args={["#87CEEB", 0, 300]} />
 
-      {/* <ambientLight intensity={Math.PI / 5} /> */}
       <Lighthouse scale={[0.5, 0.5, 0.5]} position={[10, 0, -50]} />
       <Land scale={[10, 10, 10]} position={[-12, 18, -710]} />
 
       <group ref={cameraGroup}>
-        <PerspectiveCamera position={[0, 1.5, 5]} makeDefault />
+        <group ref={cameraRail} position={[0, 1.5, 5]}>
+          <PerspectiveCamera near={0.1} far={1000} fov={55} makeDefault />
+        </group>
         <group ref={boat}>
           <Float floatIntensity={0.5} speed={1} rotationIntensity={0.2}>
-            {/* <Ship
-              rotation-y={Math.PI}
-              rotation-z={Math.PI / 8}
-              position={[0, 0, 0]}
-              scale={[0.03, 0.03, 0.03]}
-            /> */}
             <Boatv2
               rotation-y={Math.PI}
               rotation-z={Math.PI / 20}
@@ -269,10 +261,8 @@ export const Experience = () => {
           />
           <meshStandardMaterial
             color={"white"}
-            // ref={lineMaterialRef}
             transparent
             envMapIntensity={2}
-            // onBeforeCompile={fadeOnBeforeCompile}
           />
         </mesh>
       </group>

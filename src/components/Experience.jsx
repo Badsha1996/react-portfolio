@@ -5,6 +5,7 @@ import {
   PerspectiveCamera,
   Sky,
   Text,
+  TrackballControls,
   useScroll,
 } from "@react-three/drei";
 import Background from "./Background";
@@ -20,6 +21,9 @@ import { Ship } from "./Ship";
 import { Boatv2 } from "./Boatv2";
 import { Waves } from "./Wave";
 import CustomOrbitControls from "./CustomOrbitControls";
+import SphericalWorldCloud from "./sphericalWorldCloud";
+import SkillListGlass from "./SkillListGlass";
+import SkillListPopup from "./SkillListGlass";
 
 // WATER TRAILS
 
@@ -140,12 +144,12 @@ export const Experience = () => {
     <>
       <fog attach="fog" args={["#87CEEB", 0, 300]} />
 
-      <Lighthouse scale={[0.5, 0.5, 0.5]} position={[10, 0, -50]} />
+      <Lighthouse scale={[0.5, 0.5, 0.5]} position={[10, 0, -10]} />
       <Land scale={[10, 10, 10]} position={[-12, 18, -710]} />
 
       <group ref={cameraGroup}>
         <group ref={cameraRail} position={[0, 1.5, 5]}>
-          <PerspectiveCamera near={0.1} far={1000} fov={55} makeDefault />
+          <PerspectiveCamera near={1} far={1000} fov={45} makeDefault />
         </group>
         <group ref={boat}>
           <Float floatIntensity={0.5} speed={1} rotationIntensity={0.2}>
@@ -161,31 +165,44 @@ export const Experience = () => {
       <Ocean boatRef={boat} />
 
       {/* TEXT SECTION */}
-      <group position={[0, 1.5, -60]}>
+
+      {/* SKILLS SECTION */}
+      <group position={[-10, 3.8, -62]} scale={[0.22, 0.22, 0.22]}>
+        <SphericalWorldCloud />
         <Text
           color={"#7CB9E8"}
-          maxWidth={3}
-          fontSize={1}
+          maxWidth={193}
+          fontSize={5}
           anchorX="left"
-          position-y={2}
+          position-x={59}
+          position-y={15}
           anchorY="middle"
           font="font/DMSerifDisplay-Regular.ttf"
         >
-          WELCOME TO DUMMY {"\n"}
+          SKILL SET {"\n"}
         </Text>
         <Text
-          color={"white"}
-          maxWidth={3}
-          fontSize={0.2}
+          color={"blue"}
+          maxWidth={40}
+          position-x={59}
+          position-y={10}
+          fontSize={2}
           anchorX="left"
           anchorY="top"
           font="font/DMSerifDisplay-Regular.ttf"
         >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
-          voluptatem.
+          Full stack E-to-E {"\n"}
+          UI/UX Design {"\n"}
+          API Developement {"\n"}
+          UI Development {"\n"}
         </Text>
       </group>
-      <group position={[25, 1.5, -150]}>
+
+      <group>
+        <SkillListPopup boatRef={boat} />
+      </group>
+
+      {/* <group position={[3, 1, -62]}>
         <Text
           color={"#7CB9E8"}
           maxWidth={3}
@@ -208,7 +225,10 @@ export const Experience = () => {
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi,
           voluptatem.
         </Text>
-      </group>
+      </group> */}
+
+      {/* NAME SECTION */}
+
       <group position={[5, 1.5, -270]}>
         <Text
           color={"#7CB9E8"}
